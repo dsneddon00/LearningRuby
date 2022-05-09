@@ -41,11 +41,94 @@ def bubbleSort(arr)
             end
         end
 
-        break !swap
+        break !swap # breaks if the swap is false, meaning that the array is fully swapped
     end
 
     return arr
 end
+
+def countingSort(arr) #operating by the parameters that the max will be the length of the array and the min will be 0
+    aMax = arr.max + 1
+    aMin = 0
+
+    if(aMin > aMax) # such that a case there are negative numbers
+        puts "Error: Min is greater than max"
+    end
+    
+    n = aMax - aMin + 1
+
+    # multiline comments use =begin and =end
+    #=begin
+    #ary = Array.new    #=> []
+    #Array.new(3)       #=> [nil, nil, nil] # 3 deterines the side of the array
+    #Array.new(3, true) #=> [true, true, true] # the bool value is what's placed in the every index of the array
+    #=end
+
+    count = Array.new(n, 0) # if n == 3, count => [0, 0, 0]
+
+    len = arr.size
+
+    result = Array.new(len) # [nil, nil, nil]
+
+    for i in 0...len
+        count[arr[i]-aMin] += 1
+    end
+
+    for i in 1...n
+        count[i] += count[i-1]
+    end
+
+    for i in 0...len
+        result[count[arr[i] - aMin] - 1] = arr[i]
+    end
+
+    for i in 0...len
+        arr[i] = result[i]
+    end
+
+    return arr
+
+end
+
+def mergeSort(arr)
+    # base case, check for an invalid array
+    if arr.size <= 1 
+        return arr
+    else
+        midIndex = arr.size / 2
+        leftArr = mergeSort(arr.slice(0...midIndex)) # ends one before midIndex
+        rightArr = mergeSort(arr.slice(midIndex...arr.size))
+        mergeR(leftArr, rightArr)
+    end
+end
+
+def mergeR(leftArr, rightArr)
+    result = []
+    
+    #[].empty?
+    # => true
+
+    #{}.empty?
+    # => true
+
+    #Set.new.empty?
+    # => true
+
+    while(!leftArr.empty? && !rightArr.empty?) do
+        # using shift to reallocate onto the resulting array
+        # shift pops off the first value of the array and returns it
+
+        if(leftArr[0] < rightArr[0])
+            result.push(leftArr.shift)
+        else
+            result.push(rightArr.shift)
+        end
+    end
+
+    return result.concat(leftArr).concat(rightArr) # don't quite know why we need to concat these, but it only prints the first without the concat
+
+end
+
 
 def main()
     helloWorld()
@@ -61,7 +144,18 @@ def main()
     puts recursivePow(4, 1)
     puts recursivePow(2, 4)
     puts "\n"
+    puts "Sorts"
+    puts "\n"
+    puts "Bubble Sort"
     puts bubbleSort([11,5,7,6,15])
+    puts "\n"
+    puts "Counting Sort"
+    puts countingSort([11,5,7,6,15])
+    puts "\n"
+    puts "Merge Sort"
+    puts mergeSort([11,5,7,6,15])
+
+
 end
 
 main()
