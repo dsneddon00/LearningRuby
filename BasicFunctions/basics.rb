@@ -161,6 +161,22 @@ def histogram()
     frequencies.each { |word, frequency| puts word + " " + frequency.to_s }
 end
 
+def sortNumsWithDefaultParam(arr, rev=false)
+    arr.sort!
+    if rev
+        return arr.reverse!
+    else
+        return arr
+    end
+end
+
+def alphabetize(arr, rev=false)
+    if rev
+        arr.sort { |item1, item2| item2 <=> item1 }
+    else
+        arr.sort { |item1, item2| item1 <=> item2 }
+    end
+end
 
 def main()
     helloWorld()
@@ -189,9 +205,16 @@ def main()
 
     #userInputGoodies()
 
-    histogram()
+    #histogram()
+    puts "\n"
+    numbers = [1, 3, 4, 5, 3]
+    print sortNumsWithDefaultParam(numbers, true)
 
-
+    puts "\n"
+    books = ["Heart of Darkness", "Code Complete", "The Lorax", "The Prophet", "Absalom, Absalom!", "Chronicles of Bones and Steel", "Horra Patter"]
+    print alphabetize(books)
+    puts "\n"
+    print alphabetize(books, true)
 end
 
 main()
